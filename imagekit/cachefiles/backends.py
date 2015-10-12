@@ -130,7 +130,7 @@ class BaseAsync(Simple):
         # ``generate_now`` will catch it. We just want to make sure we don't
         # schedule anything we know is unnecessary--but we also don't want to
         # force a costly existence check.
-        state = self.get_state(file, check_if_unknown=False)
+        state = self.get_state(file, check_if_unknown=True)
         if state not in (CacheFileState.GENERATING, CacheFileState.EXISTS):
             self.schedule_generation(file, force=force)
 
