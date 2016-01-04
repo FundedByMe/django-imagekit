@@ -132,14 +132,19 @@ def generate(generator):
 
     """
     content = generator.generate()
-
     # If the file doesn't have a name, Django will raise an Exception while
     # trying to save it, so we create a named temporary file.
-    if not getattr(content, 'name', None):
-        f = NamedTemporaryFile()
-        f.write(content.read())
-        f.seek(0)
-        content = f
+
+    # PS: Generator.generate won't return anythign if BaseAsync backend is
+    # being used so it doesn't really make sense to verify if file has a name
+    # or not.
+
+    if content:
+        if not getattr(content, 'name', None):
+            f = NamedTemporaryFile()
+            f.write(content.read())
+            f.seek(0)
+            content = f
 
     return File(content)
 
