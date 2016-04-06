@@ -1,7 +1,7 @@
 from ..utils import get_singleton, sanitize_cache_key
 import warnings
 from copy import copy
-from django.core.cache import get_cache
+from django.core.cache import caches
 from django.core.exceptions import ImproperlyConfigured
 from django.conf import settings
 
@@ -55,7 +55,7 @@ class CachedFileBackend(object):
     def cache(self):
         if not getattr(self, '_cache', None):
             from django.conf import settings
-            self._cache = get_cache(settings.IMAGEKIT_CACHE_BACKEND)
+            self._cache = caches.get(settings.IMAGEKIT_CACHE_BACKEND)
         return self._cache
 
     def get_key(self, file):
